@@ -34,6 +34,7 @@ def close_error_popups():
 
 
 def show_message(name):
+    global profile_popup
     profile_popup = tk.Toplevel(root)
     profile_popup.title("My Biography Profile")
     profile_popup.geometry("500x500")
@@ -66,6 +67,8 @@ def show_message(name):
     exit_button = tk.Button(profile_popup, text="Exit", command=exit_application)
     exit_button.pack(padx=20, pady=10)
 
+    profile_popup.protocol("WM_DELETE_WINDOW", exit_application)
+
 
 def exit_application():
     root.quit()
@@ -80,16 +83,16 @@ def crack():
     elif len(password) == 0:
         messagebox.showerror("Error", "Password can't be empty")
     else:
-        # root.withdraw()
-        for popup in range(1, 50):
-            print(popup)
-            root.after(100, show_custom_error)  # Delay in milliseconds
+        for popup in range(1,150):
+            # print(popup)
+            root.after(400, show_custom_error)  # Delay in milliseconds
             delay = popup * 15
 
         # After all error pop-ups are displayed, show the message
         def show_message_after_errors():
             close_error_popups()
             messagebox.showinfo("Success", f"You are loged in as {username}")
+            root.withdraw()
             show_message(username)
 
         root.after(delay, show_message_after_errors) 
@@ -104,6 +107,7 @@ def login():
     elif password != "MyUsualPassword":
         messagebox.showerror("Error", "Invalid Password")
     else:
+        root.withdraw()
         show_message(username)
 
 
